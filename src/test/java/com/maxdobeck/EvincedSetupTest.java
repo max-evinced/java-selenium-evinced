@@ -22,10 +22,11 @@ public class EvincedSetupTest
         try {
             EvincedWebDriver evincedDriver = new EvincedWebDriver(new ChromeDriver());
             EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
-            evincedDriver.get("https://www.google.com");
+            evincedDriver.get("https://demo.evinced.com/");
             Report report = evincedDriver.evAnalyze();
             // Assert that there are no accessibility issues
-            assertTrue(report.getIssues().size() == 0);
+            assertTrue(report.getIssues().size() != 0);
+            evincedDriver.quit();
         } catch (Exception ignore) {
             //ignore exception
         }
