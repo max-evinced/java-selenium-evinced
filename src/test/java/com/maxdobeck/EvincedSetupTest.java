@@ -1,7 +1,8 @@
+package com.maxdobeck;
+
 import static org.junit.Assert.assertTrue;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
 import com.evinced.EvincedWebDriver;
 import com.evinced.dto.results.Report;
 import com.evinced.EvincedSDK;
@@ -14,9 +15,6 @@ import java.net.URL;
 
 public class EvincedSetupTest
 {
-    public static DesiredCapabilities capabilities;
-    public static EvincedWebDriver driver;
-
     @Before
     public void Setup()
     {
@@ -28,9 +26,10 @@ public class EvincedSetupTest
     public void ShouldStartChrome() throws MalformedURLException
     {
         try {
-            EvincedWebDriver driver = new EvincedWebDriver(new ChromeDriver());
-            driver.get("https://www.google.com");
-            Report report = driver.evAnalyze();
+            WebDriver driver = new ChromeDriver();
+            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
+            evincedDriver.get("https://www.google.com");
+            Report report = evincedDriver.evAnalyze();
             // Assert that there are no accessibility issues
             assertTrue(report.getIssues().size() == 0);
         } catch (Exception ignore) {
