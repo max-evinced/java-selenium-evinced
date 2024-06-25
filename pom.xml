@@ -30,7 +30,7 @@
     <repository>
       <id>evinced-repository</id>
       <name>Evinced Jfrog Repo</name>
-      <url>https://evinced.jfrog.io/artifactory/private-maven/</url>
+      <url>https://evinced.jfrog.io/artifactory/restricted-maven-local/</url>
     </repository>
 
     <repository>
@@ -56,7 +56,7 @@
     <dependency>
       <groupId>com.evinced</groupId>
       <artifactId>selenium-sdk</artifactId>
-      <version>3.4.4</version>
+      <version>3.4.5</version>
       <scope>test</scope>
     </dependency>
 

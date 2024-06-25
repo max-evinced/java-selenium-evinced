@@ -21,7 +21,7 @@ public class EvincedSetupTest
     }
     
     @Test
-    public void shouldStartChrome() throws MalformedURLException
+    public void ShouldStartChrome() throws MalformedURLException
     {
         BaseOptions options = new BaseOptions()
             .setAutomationName("chromeDriver");
