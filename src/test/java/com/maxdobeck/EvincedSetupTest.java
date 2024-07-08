@@ -5,16 +5,21 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import com.evinced.EvincedWebDriver;
 import com.evinced.dto.results.Report;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 import com.evinced.EvincedSDK;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 
 public class EvincedSetupTest
-{    
+{ 
+    @Before
+    public void setupAll() {
+        WebDriverManager.chromedriver().setup();
+    }
+
     // test for https://developer.evinced.com/sdks-for-web-apps/selenium-java-sdk#addevincedaccessibilitychecks(singlerunmode)
     @Test
     public void ShouldStartChrome() throws MalformedURLException
@@ -22,13 +27,14 @@ public class EvincedSetupTest
         try {
             EvincedWebDriver evincedDriver = new EvincedWebDriver(new ChromeDriver());
             EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
-            evincedDriver.get("https://www.google.com");
+            evincedDriver.get("https://demo.evinced.com");
             Report report = evincedDriver.evAnalyze();
-            // Assert that there are no accessibility issues
-            assertTrue(report.getIssues().size() == 0);
+            // Assert that there are SOME accessibility issues
+            assertTrue(report.getIssues().size() != 0);
+            evincedDriver.quit();
         } catch (Exception ignore) {
-            //ignore exception
+            // ignore exception
+            System.out.println(ignore);
         }
-        assertTrue(true);
     }
 }
