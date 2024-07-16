@@ -35,7 +35,7 @@ public class EvincedSauceTest
             Map<String, Object> sauceOptions = new HashMap<>();
             sauceOptions.put("username", System.getenv("SAUCE_USERNAME"));
             sauceOptions.put("accessKey", System.getenv("SAUCE_ACCESS_KEY"));
-            sauceOptions.put("name", "Simple Evinced Chrome Test");
+            sauceOptions.put("name", "Simple Evinced Chrome Test:Start/Stop");
             browserOptions.setCapability("sauce:options", sauceOptions);
 
             URL url = new URL("https://ondemand.us-west-1.saucelabs.com:443/wd/hub");
@@ -43,8 +43,9 @@ public class EvincedSauceTest
 
             EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
             EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
+            evincedDriver.evStart();
             evincedDriver.get("https://demo.evinced.com");
-            Report report = evincedDriver.evAnalyze();
+            Report report = evincedDriver.evStop();
             // Assert that there are SOME accessibility issues
             assertTrue(report.getIssues().size() != 0);
             driver.executeScript("sauce:job-result=" + true);
