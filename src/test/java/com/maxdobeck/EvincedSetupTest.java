@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.evinced.dto.configuration.EvincedConfiguration;
 import com.evinced.dto.results.Report;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import com.evinced.EvincedWebDriver;
@@ -60,7 +61,9 @@ public class EvincedSetupTest
     @Test
     public void SaveReports() throws MalformedURLException {
         try {
-            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
+            EvincedConfiguration configuration = new EvincedConfiguration();
+            configuration.setEnableScreenshots(true);
+            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
             EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
             evincedDriver.get("https://demo.evinced.com");
             Report landing_page_report = evincedDriver.evAnalyze();
@@ -93,10 +96,13 @@ public class EvincedSetupTest
             URL url = new URL("https://ondemand.us-west-1.saucelabs.com:443/wd/hub");
             RemoteWebDriver driver = new RemoteWebDriver(url, browserOptions);
 
-            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
+            EvincedConfiguration configuration = new EvincedConfiguration();
+            configuration.setEnableScreenshots(true);
+            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
             EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
             evincedDriver.get("https://demo.evinced.com");
             Report report = evincedDriver.evAnalyze();
+            EvincedReporter.evSaveFile("Single_mode_evAnalyze",report, EvincedReporter.FileFormat.HTML);
             // Assert that there are SOME accessibility issues
             assertTrue(report.getIssues().size() != 0);
         } catch (Exception ignore) {
@@ -107,6 +113,9 @@ public class EvincedSetupTest
 
 
     public static void takeSnapshot(String reportName, EvincedWebDriver evDriver) {
+        if (Boolean.getBoolean("RUN_EVINCED") != true) {
+            return;
+        }
         Report report = evDriver.evAnalyze();
         EvincedReporter.evSaveFile(reportName, report, EvincedReporter.FileFormat.HTML);
     }

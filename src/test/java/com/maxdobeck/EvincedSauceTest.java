@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.evinced.dto.configuration.EvincedConfiguration;
 import com.evinced.dto.results.Report;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import com.evinced.EvincedWebDriver;
@@ -28,7 +29,6 @@ public class EvincedSauceTest
     @Test
     public void ChromeSauceTest() throws MalformedURLException {
         try {
-
             ChromeOptions browserOptions = new ChromeOptions();
             browserOptions.setCapability("platformName", "Windows 11");
             browserOptions.setCapability("browserVersion", "latest");
@@ -41,13 +41,16 @@ public class EvincedSauceTest
             URL url = new URL("https://ondemand.us-west-1.saucelabs.com:443/wd/hub");
             RemoteWebDriver driver = new RemoteWebDriver(url, browserOptions);
 
-            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
+            EvincedConfiguration configuration = new EvincedConfiguration();
+            configuration.setEnableScreenshots(true);
+            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
             EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
             evincedDriver.evStart();
             evincedDriver.get("https://demo.evinced.com");
             Report report = evincedDriver.evStop();
             // Assert that there are SOME accessibility issues
             assertTrue(report.getIssues().size() != 0);
+            takeSnapshot("sauce_report", evincedDriver);
             driver.executeScript("sauce:job-result=" + true);
             driver.quit();
         } catch (Exception ignore) {
