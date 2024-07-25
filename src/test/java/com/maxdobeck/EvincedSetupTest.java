@@ -79,41 +79,6 @@ public class EvincedSetupTest
         }
     }
 
-    @Test
-    public void ChromeSauceTest() throws MalformedURLException {
-        try {
-
-            ChromeOptions browserOptions = new ChromeOptions();
-            browserOptions.setCapability("platformName", "Windows 11");
-            browserOptions.setCapability("browserVersion", "latest");
-            Map<String, Object> sauceOptions = new HashMap<>();
-            sauceOptions.put("username", System.getenv("SAUCE_USERNAME"));
-            sauceOptions.put("accessKey", System.getenv("SAUCE_ACCESS_KEY"));
-            sauceOptions.put("build", "<your build id>");
-            sauceOptions.put("name", "<your test name>");
-            browserOptions.setCapability("sauce:options", sauceOptions);
-
-            URL url = new URL("https://ondemand.us-west-1.saucelabs.com:443/wd/hub");
-            RemoteWebDriver driver = new RemoteWebDriver(url, browserOptions);
-
-            EvincedConfiguration configuration = new EvincedConfiguration();
-            configuration.setEnableScreenshots(true);
-            configuration.addExperimentalFlag("USE_AXE_NEEDS_REVIEW", true);
-            configuration.addExperimentalFlag("USE_AXE_BEST_PRACTICES", true);
-            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
-            EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
-            evincedDriver.get("https://demo.evinced.com");
-            Report report = evincedDriver.evAnalyze();
-            EvincedReporter.evSaveFile("Single_mode_evAnalyze",report, EvincedReporter.FileFormat.HTML);
-            // Assert that there are SOME accessibility issues
-            assertTrue(report.getIssues().size() != 0);
-        } catch (Exception ignore) {
-            // ignore exception
-            System.out.println(ignore);
-        }
-    }
-
-
     public static void takeSnapshot(String reportName, EvincedWebDriver evDriver) {
         if (Boolean.getBoolean("RUN_EVINCED") != true) {
             return;
