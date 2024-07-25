@@ -98,6 +98,8 @@ public class EvincedSetupTest
 
             EvincedConfiguration configuration = new EvincedConfiguration();
             configuration.setEnableScreenshots(true);
+            configuration.addExperimentalFlag("USE_AXE_NEEDS_REVIEW", true);
+            configuration.addExperimentalFlag("USE_AXE_BEST_PRACTICES", true);
             EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
             EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
             evincedDriver.get("https://demo.evinced.com");
