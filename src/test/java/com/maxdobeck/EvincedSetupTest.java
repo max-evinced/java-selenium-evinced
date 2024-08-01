@@ -80,6 +80,11 @@ public class EvincedSetupTest
     }
 
     public static void takeSnapshot(String reportName, EvincedWebDriver evDriver) {
+        /* use your local driver class instead and configure it 
+         here if you need to call evAnalyze sporadically */
+        // EvincedConfiguration evConfiguration = new EvincedConfiguration();
+        // evConfiguration.setEnableScreenshots(true);
+        // EvincedWebDriver evincedDriver = new EvincedWebDriver(localDriverInstance, evConfiguration);
         if (Boolean.getBoolean("RUN_EVINCED") != true) {
             return;
         }
