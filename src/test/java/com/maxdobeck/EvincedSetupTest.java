@@ -45,17 +45,12 @@ public class EvincedSetupTest
     // test for https://developer.evinced.com/sdks-for-web-apps/selenium-java-sdk#addevincedaccessibilitychecks(singlerunmode)
     @Test
     public void ShouldStartChrome() throws MalformedURLException {
-        try {
-            EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
-            EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
-            evincedDriver.get("https://demo.evinced.com");
-            Report report = evincedDriver.evAnalyze();
-            // Assert that there are SOME accessibility issues
-            assertTrue(report.getIssues().size() != 0);
-        } catch (Exception ignore) {
-            // ignore exception
-            System.out.println(ignore);
-        }
+        EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
+        EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
+        evincedDriver.get("https://demo.evinced.com");
+        Report report = evincedDriver.evAnalyze();
+        // Assert that there are SOME accessibility issues
+        assertTrue(report.getIssues().size() != 0);
     }
 
     @Test
