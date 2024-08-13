@@ -32,6 +32,8 @@ public class AggregateReportTest
 
     @After
     public void teardownDrivers() {
+        // Save an aggregate report
+        EvincedReporter.evSaveFile("agg_report", EvincedReporter.FileFormat.HTML);
         if (driver != null) {
             driver.quit();
         }
@@ -40,7 +42,6 @@ public class AggregateReportTest
         }
     }
 
-    // test for https://developer.evinced.com/sdks-for-web-apps/selenium-java-sdk#addevincedaccessibilitychecks(singlerunmode)
     @Test
     public void ShouldStartChrome() throws MalformedURLException {
         EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
@@ -52,13 +53,26 @@ public class AggregateReportTest
 
     @Test
     public void SaveReports() throws MalformedURLException {
+        EvincedConfiguration configuration = new EvincedConfiguration();
+        configuration.setEnableScreenshots(true);
+        EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
+        EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
+        evincedDriver.evStart();
+        evincedDriver.get("https://demo.evinced.com");
+        evincedDriver.get("https://demo.evinced.com/results/?what=Tiny%20House&where=Canada&date=Tue%20Jul%2009%202024%2011:21:39%20GMT-0400%20(Eastern%20Daylight%20Time");
+        evincedDriver.evStop();
+        }
+
+        @Test
+        public void AnotherDomain() throws MalformedURLException {
             EvincedConfiguration configuration = new EvincedConfiguration();
             configuration.setEnableScreenshots(true);
             EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
             EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
             evincedDriver.evStart();
-            evincedDriver.get("https://demo.evinced.com");
-            evincedDriver.get("https://demo.evinced.com/results/?what=Tiny%20House&where=Canada&date=Tue%20Jul%2009%202024%2011:21:39%20GMT-0400%20(Eastern%20Daylight%20Time");
+            evincedDriver.get("https://evinced.com");
+            evincedDriver.get("https://pbs.org");
             evincedDriver.evStop();
-    }
+            }
+    
 }
