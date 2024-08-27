@@ -55,7 +55,7 @@ public class evAnalyzeAggregateReportTest
     public void ShouldStartChrome() throws MalformedURLException, InterruptedException {
         EvincedConfiguration configuration = new EvincedConfiguration();
         configuration.setEnableScreenshots(true);
-        configuration.setIncludeAnalysisResultIntoAggregatedReport(false);
+        configuration.setIncludeAnalysisResultIntoAggregatedReport(true);
 
         EvincedWebDriver evincedDriver = new EvincedWebDriver(driver);
         EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
@@ -64,31 +64,30 @@ public class evAnalyzeAggregateReportTest
         evincedDriver.evAnalyze(configuration);
     }
 
-    // @Test
-    // public void SaveReports() throws MalformedURLException {
-    //     EvincedConfiguration configuration = new EvincedConfiguration();
-    //     configuration.setEnableScreenshots(true);
-    //     configuration.isIncludeAnalysisResultIntoAggregatedReport();
-    //     EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
-    //     EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
-    //     evincedDriver.get("https://demo.evinced.com");
-    //     evincedDriver.evAnalyze();
-    //     evincedDriver.get("https://demo.evinced.com/results/?what=Tiny%20House&where=Canada&date=Tue%20Jul%2009%202024%2011:21:39%20GMT-0400%20(Eastern%20Daylight%20Time");
-    //     evincedDriver.evAnalyze();
-    // }
+    @Test
+    public void SaveReports() throws MalformedURLException {
+        EvincedConfiguration configuration = new EvincedConfiguration();
+        configuration.setEnableScreenshots(true);
+        configuration.setIncludeAnalysisResultIntoAggregatedReport(true);
+        EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
+        EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
+        evincedDriver.get("https://demo.evinced.com");
+        evincedDriver.evAnalyze(configuration);
+        evincedDriver.get("https://demo.evinced.com/results/?what=Tiny%20House&where=Canada&date=Tue%20Jul%2009%202024%2011:21:39%20GMT-0400%20(Eastern%20Daylight%20Time");
+        evincedDriver.evAnalyze(configuration);
+    }
 
-    // @Test
-    // public void ThirdTest() throws MalformedURLException {
-    //     WebDriverManager.chromedriver().setup();
-    //     driver = new ChromeDriver();
+    @Test
+    public void ThirdTest() throws MalformedURLException {
+        EvincedConfiguration configuration = new EvincedConfiguration();
+        configuration.setEnableScreenshots(true);
+        configuration.setIncludeAnalysisResultIntoAggregatedReport(true);
 
-    //     EvincedConfiguration configuration = new EvincedConfiguration();
-    //     configuration.setEnableScreenshots(true);
-    //     EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
-    //     EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
-    //     evincedDriver.get("https://evinced.com");
-    //     evincedDriver.evAnalyze();
-    //     evincedDriver.get("https://pbs.org");
-    //     evincedDriver.evAnalyze();
-    // }
+        EvincedWebDriver evincedDriver = new EvincedWebDriver(driver, configuration);
+        EvincedSDK.setCredentials(System.getenv("SERVICE_ACCOUNT_ID"), System.getenv("API_KEY"));
+        evincedDriver.get("https://evinced.com");
+        evincedDriver.evAnalyze(configuration);
+        evincedDriver.get("https://pbs.org");
+        evincedDriver.evAnalyze(configuration);
+    }
 }
