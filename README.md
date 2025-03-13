@@ -2,3 +2,9 @@
 
 `mvn test` to run test(s).
 
+
+
+```
+mvn clean
+mvn install
+mvn test```
